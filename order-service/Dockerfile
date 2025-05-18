@@ -1,0 +1,12 @@
+FROM openjdk:21-slim as build
+RUN apt-get update && apt-get install -y maven
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean install -DskipTests
+
+# Run stage
+FROM openjdk:21-slim
+WORKDIR /app
+COPY --from=build /app/target/app.jar app.jar
+ENTRYPOINT ["java","-jar","app.jar"]

@@ -1,0 +1,25 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://postgresql:5432/productdb
+    username: postgres
+    password: postgres
+  sql:
+    init:
+      mode: always
+      platform: postgres
+      schema-locations: classpath:/table_creation.sql
+
+logging:
+  level:
+    org.springframework.r2dbc: DEBUG
+server:
+  port: 8081
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: true
